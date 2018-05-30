@@ -1,0 +1,45 @@
+body {
+    box-sizing: border-box;
+}
+
+
+#good_container {
+    margin: 0 auto;
+    max-width: 400px;
+    min-height: 670px;
+    border: 3px solid #a9cdff;
+}
+
+.block {
+    padding-left: 90px;
+    font-size: 15px;
+}
+
+.buttons {
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.back, .next{
+    background: #e5e8ff;
+    width: 130px;
+    height: 38px;
+    margin-top: 10px;
+    color: #111111;
+    font-weight: 400;
+    font-size: 15px;
+    text-align: center;
+    line-height: 34px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease-out;
+}
+
+.disabled {
+    color: #ceccda;
+}
+
+.hidden {
+    display: none;
+}
