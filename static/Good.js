@@ -51,8 +51,5 @@ class Good {
                 price: this.price
             });
         })
-
     }
-
-
 }

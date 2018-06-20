@@ -2,7 +2,7 @@
 
 class Basket {
     constructor() {
-        this.goods = JSON.parse(localStorage.getItem('cart')) || [];
+        this.goods = [];
         this.state = {
             count: 0
         }
@@ -10,6 +10,7 @@ class Basket {
         this.renderGoods();
 
     }
+
     render() {
         const basket = document.getElementById('basket');
         const body = document.createElement('div');
@@ -35,7 +36,6 @@ class Basket {
         basketBody.appendChild(basketItems);
         basketText.textContent = `Количество товаров: ${this.goods.length}`;
     }
-
 
     renderGoods() {
         if (this.goods.length === 0) {
@@ -116,13 +116,14 @@ class Basket {
             .then(res => res.json())
             .then(data => {
                 result = data;
+                console.log(result.auth);
                 if (result.auth === false) {
                     localStorage.setItem('cart', JSON.stringify(this.goods));
-                } else if (result.auth) {
+                } else {
                     fetch('/cart/0', {
                             method: method,
                             body: JSON.stringify({
-                                cart: id
+                                cart: id + 1
                             }),
                             headers: {
                                 'Content-Type': 'application/json'
