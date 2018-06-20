@@ -14,7 +14,6 @@ class GoodList {
      */
     getGoodList(url) {
         this.getApi(url).then(data => {
-            console.log(data);
             if (data.length === 0) {
                 buttonNext.classList.add('disabled');
                 return page--;
