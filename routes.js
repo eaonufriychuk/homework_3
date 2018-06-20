@@ -34,6 +34,21 @@ const appRouter = function (app) {
     res.sendFile(__dirname + '/index.html');
   });
 
+  app.get('/my-user', function(req, res) {
+    if (req.session.authorized) {
+      const userId = req.session.userId;
+      res.status(200).send({
+        user: users[userId],
+        auth: true,
+      });
+    } else {
+      res.status(200).send({
+        user: null,
+        auth: false,
+      });
+    }
+  });
+
   app.get('/login', function(req, res) {
     if (!req.session.authorized) {
       req.session.authorized = true;
