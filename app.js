@@ -5,8 +5,15 @@ const routes = require('./routes.js');
 const app = express();
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(session({
+    secret: 'keyboard cat',
+    cookie: {
+        maxAge: 60000
+    }
+}))
 app.use('/static', express.static('static'));
 
 routes(app);

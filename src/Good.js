@@ -1,6 +1,8 @@
-'use strict';
+import {
+    basket
+} from './index';
 
-class Good {
+export default class Good {
     constructor(id, title, price) {
         this.id = id;
         this.title = title;

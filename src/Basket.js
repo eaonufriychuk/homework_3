@@ -1,8 +1,6 @@
-'use strict';
-
-class Basket {
+export default class Basket {
     constructor() {
-        this.goods = [];
+        this.goods = JSON.parse(localStorage.getItem('cart')) || [];
         this.state = {
             count: 0
         }
@@ -109,14 +107,16 @@ class Basket {
         if (typeof id !== 'number' && typeof method !== 'string') {
             return;
         }
+
         let result = null;
+
         fetch('/my-user', {
                 credentials: 'include'
             })
             .then(res => res.json())
             .then(data => {
                 result = data;
-                console.log(result.auth);
+                console.log(result.auth)
                 if (result.auth === false) {
                     localStorage.setItem('cart', JSON.stringify(this.goods));
                 } else {

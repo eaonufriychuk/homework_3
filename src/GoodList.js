@@ -1,6 +1,6 @@
-'use strict';
+import Good from './Good';
 
-class GoodList {
+export default class GoodList {
     constructor() {
         this.render();
     }
