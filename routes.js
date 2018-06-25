@@ -1,8 +1,12 @@
 const faker = require('faker');
 
 const checkIsNum = id => !isNaN(+id);
-const send400 = (res, message) => res.status(400).send({ message });
-const send404 = (res, message) => res.status(404).send({ message });
+const send400 = (res, message) => res.status(400).send({
+  message
+});
+const send404 = (res, message) => res.status(404).send({
+  message
+});
 
 const itemsPerPage = 10;
 
@@ -30,11 +34,26 @@ const appRouter = function (app) {
     });
   }
 
-  app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/index.html');
+  app.get('/', function (req, res) {
+    res.sendFile(__dirname + '/static/index.html');
   });
 
-  app.get('/login', function(req, res) {
+  app.get('/my-user', function (req, res) {
+    if (req.session.authorized) {
+      const userId = req.session.userId;
+      res.status(200).send({
+        user: users[userId],
+        auth: true,
+      });
+    } else {
+      res.status(200).send({
+        user: null,
+        auth: false,
+      });
+    }
+  });
+
+  app.get('/login', function (req, res) {
     if (!req.session.authorized) {
       req.session.authorized = true;
       req.session.userId = users[0].id;
@@ -42,7 +61,7 @@ const appRouter = function (app) {
     res.redirect('/');
   });
 
-  app.get('/logout', function(req, res) {
+  app.get('/logout', function (req, res) {
     req.session.authorized = false;
     req.session.userId = false;
 
@@ -71,8 +90,8 @@ const appRouter = function (app) {
     if (query.page) {
       pages = Math.ceil(result.length / 10);
 
-      const stast = (query.page - 1) *  itemsPerPage;
-      const end = query.page *  itemsPerPage;
+      const stast = (query.page - 1) * itemsPerPage;
+      const end = query.page * itemsPerPage;
 
       result = result.slice(stast, end);
     }
@@ -84,7 +103,7 @@ const appRouter = function (app) {
     res.status(200).send(['main', 'catalog', 'cart', 'user']);
   });
 
-  app.get('/goods/:id',  function (req, res) {
+  app.get('/goods/:id', function (req, res) {
     const id = req.params.id;
 
     if (checkIsNum(id)) {
@@ -105,7 +124,7 @@ const appRouter = function (app) {
     res.status(200).send(Object.values(users));
   });
 
-  app.get('/users/:id', function(req, res) {
+  app.get('/users/:id', function (req, res) {
     const id = req.params.id;
 
     if (checkIsNum(id)) {
@@ -121,7 +140,7 @@ const appRouter = function (app) {
   })
 
 
-  app.get('/cart/:id', function(req, res) {
+  app.get('/cart/:id', function (req, res) {
     const id = req.params.id;
 
     if (checkIsNum(id)) {
@@ -129,14 +148,16 @@ const appRouter = function (app) {
       if (user) {
         res.status(200).send(user.cart);
       } else {
-        res.status(404).send({ message: 'user and cart do not exist' });
+        res.status(404).send({
+          message: 'user and cart do not exist'
+        });
       }
     } else {
       send400(res, 'invalid id supplied');
     }
   })
 
-  app.post('/cart/:id', function(req, res) {
+  app.post('/cart/:id', function (req, res) {
     const id = req.params.id;
     const body = req.body;
 
@@ -149,14 +170,16 @@ const appRouter = function (app) {
       } else if (!body.cart) {
         send400(res, 'no item provided');
       } else {
-        res.status(404).send({ message: 'user and cart do not exist' });
+        res.status(404).send({
+          message: 'user and cart do not exist'
+        });
       }
     } else {
       send400(res, 'invalid id supplied');
     }
   })
 
-  app.delete('/cart/:id', function(req, res) {
+  app.delete('/cart/:id', function (req, res) {
     const id = req.params.id;
     const body = req.body;
 
@@ -175,7 +198,9 @@ const appRouter = function (app) {
       } else if (!body.cart) {
         send400(res, 'no item provided');
       } else {
-        res.status(404).send({ message: 'user and cart do not exist' });
+        res.status(404).send({
+          message: 'user and cart do not exist'
+        });
       }
     } else {
       send400(res, 'invalid id supplied');
