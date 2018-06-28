@@ -32,6 +32,6 @@ export default class GoodList {
     render() {
         const goodContainer = document.querySelector('.goods');
 
-        this.getGoodList('./goods', goodContainer);
+        this.getGoodList('/api/goods', goodContainer);
     }
 }

@@ -110,7 +110,7 @@ export default class Basket {
 
         let result = null;
 
-        fetch('/my-user', {
+        fetch('/api/my-user', {
                 credentials: 'include'
             })
             .then(res => res.json())
