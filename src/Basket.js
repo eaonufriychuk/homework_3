@@ -120,7 +120,7 @@ export default class Basket {
                 if (result.auth === false) {
                     localStorage.setItem('cart', JSON.stringify(this.goods));
                 } else {
-                    fetch('/cart/0', {
+                    fetch('api/cart/0', {
                             method: method,
                             body: JSON.stringify({
                                 cart: id + 1
