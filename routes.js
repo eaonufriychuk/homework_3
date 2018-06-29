@@ -31,7 +31,22 @@ const appRouter = function (app) {
   }
 
   app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/static/index.html');
+  });
+
+  app.get('/my-user', function(req, res) {
+    if (req.session.authorized) {
+      const userId = req.session.userId;
+      res.status(200).send({
+        user: users[userId],
+        auth: true,
+      });
+    } else {
+      res.status(200).send({
+        user: null,
+        auth: false,
+      });
+    }
   });
 
   app.get('/login', function(req, res) {
@@ -39,14 +54,21 @@ const appRouter = function (app) {
       req.session.authorized = true;
       req.session.userId = users[0].id;
     }
-    res.redirect('/');
+    const userId = req.session.userId;
+    res.status(200).send({
+      user: users[userId],
+      auth: true,
+    });
   });
 
   app.get('/logout', function(req, res) {
     req.session.authorized = false;
     req.session.userId = false;
 
-    res.redirect('/');
+    res.status(200).send({
+      user: null,
+      auth: false,
+    });
   });
 
   app.get('/goods', function (req, res) {
